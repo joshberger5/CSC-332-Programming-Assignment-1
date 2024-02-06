@@ -33,17 +33,16 @@ def question2(site):
         contentList = {}
         
         totalSize += len(rs[0].content)
-        contentType = rs[0].headers.get('Content-Type')
-        contentList[contentType] = contentList.get(contentType,0) + 1
+
         for ref in refs:
             totalSize += len(ref.content)
             contentType = ref.headers.get('Content-Type')
-            contentList[contentType] = contentList.get(contentType,0) +1
+            contentList[contentType] = contentList.get(contentType,0)+ 1
             
         print("Total Size: " + str(totalSize))
 
         for contentType, count in contentList.items():
-            percentage = (count/len(refs)) * 100 if len(refs) > 0 else 0
+            percentage = (count/len(refs)) * 100 
             print(f"{contentType}: {percentage:}%")
 
         print(domainPercentages(site, rs[1]))
