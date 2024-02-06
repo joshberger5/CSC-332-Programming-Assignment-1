@@ -1,22 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jan 29 16:25:10 2024
-
-@author: Josh Berger
-"""
-
-import requests
-from bs4 import BeautifulSoup
-
-def question2(site):
-    """ Answer Question 2 test"""
-    # print the sitename
-    print(site)
-
-    # get the response and BeautifulSoup
-    rs = getResponseAndSoup(site)
-
-    # check if you got the BeautifulSoup
     # if not, alert the user that the response was invalid
     if len(rs) == 1:
         print("Invalid Response Status Code: " + rs[0])
@@ -28,10 +9,22 @@ def question2(site):
         # calculate and print the total size, in bytes, of the base HTML
         # page and all its embedded objects
         totalSize = 0
+        contentList = {}
+        
         totalSize += len(rs[0].content)
+        contentType = rs[0].headers.get('Content-Type')
+        contentList[contentType] = contentList.get(contentType,0) + 1
         for ref in refs:
             totalSize += len(ref.content)
+            contentType = ref.headers.get('Content-Type')
+            contentList[contentType] = contentList.get(contentType,0) +1
+            
         print("Total Size: " + str(totalSize))
+
+        for contentType, count in contentList.items():
+            percentage = (count/len(refs)) * 100 if len(refs) > 0 else 0
+            print(f"{contentType}: {percentage:}%")
+        
         
 
 def getResponseAndSoup(site):
@@ -84,4 +77,3 @@ def main():
     
 if __name__ == '__main__':
     main()
-    
