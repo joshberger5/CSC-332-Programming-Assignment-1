@@ -2,7 +2,7 @@
 """
 Created on Mon Jan 29 16:25:10 2024
 
-@author: Josh Berger
+@author: Josh Berger and Matt Keller
 """
 
 import requests
