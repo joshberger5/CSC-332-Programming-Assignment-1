@@ -1,3 +1,23 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jan 29 16:25:10 2024
+
+@author: Josh Berger
+"""
+
+import requests
+from bs4 import BeautifulSoup
+import time
+
+def question2(site):
+    """ Answer Question 2 """
+    # print the sitename
+    print(site)
+
+    # get the response and BeautifulSoup
+    rs = getResponseAndSoup(site)
+
+    # check if you got the BeautifulSoup
     # if not, alert the user that the response was invalid
     if len(rs) == 1:
         print("Invalid Response Status Code: " + rs[0])
@@ -77,3 +97,4 @@ def main():
     
 if __name__ == '__main__':
     main()
+    
