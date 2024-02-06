@@ -3,6 +3,7 @@
 Created on Mon Jan 29 16:25:10 2024
 
 @author: Josh Berger and Matt Keller
+did it work
 """
 
 import requests
@@ -44,7 +45,6 @@ def question2(site):
         for contentType, count in contentList.items():
             percentage = (count/len(refs)) * 100 if len(refs) > 0 else 0
             print(f"{contentType}: {percentage:}%")
-        
         
 
 def getResponseAndSoup(site):
