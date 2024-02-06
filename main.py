@@ -9,7 +9,7 @@ import requests
 from bs4 import BeautifulSoup
 
 def question2(site):
-    """ Answer Question 2 """
+    """ Answer Question 2 test"""
     # print the sitename
     print(site)
 
