@@ -10,6 +10,9 @@ from bs4 import BeautifulSoup
 
 def question2(site):
     """ Answer Question 2 """
+    # print the sitename
+    print(site)
+
     # get the response and BeautifulSoup
     rs = getResponseAndSoup(site)
 
@@ -19,7 +22,17 @@ def question2(site):
         print("Invalid Response Status Code: " + rs[0])
     # if so, proceed
     else:
+        # get all the embedded references on the website
         refs = getReferencesResponses(rs[1])
+
+        # calculate and print the total size, in bytes, of the base HTML
+        # page and all its embedded objects
+        totalSize = 0
+        totalSize += len(rs[0].content)
+        for ref in refs:
+            totalSize += len(ref.content)
+        print("Total Size: " + str(totalSize))
+        
 
 def getResponseAndSoup(site):
     """ Gets a request and (maybe) a BeautifulSoup for a given website """
@@ -53,12 +66,12 @@ def getReferencesResponses(soup: BeautifulSoup):
     refs = []
     for i in range(0, len(srcs)):
         try:
-            # if the request for the source url is valid, add it to the list
+        # if the request for the source url is valid, add it to the list
             r = requests.get(srcs[i].get('src'))
             if r.status_code == 200:
-                refs.append(requests.get(srcs[i].get('src')))
-            # if the url is invalid, move on
+                refs.append(r)
         except:
+        # if the url is invalid, move on    
             pass
 
     # return the list
