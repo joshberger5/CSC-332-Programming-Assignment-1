@@ -53,7 +53,11 @@ def getReferencesResponses(soup: BeautifulSoup):
     refs = []
     for i in range(0, len(srcs)):
         try:
-            refs.append(requests.get(srcs[i].get('src')))
+            # if the request for the source url is valid, add it to the list
+            r = requests.get(srcs[i].get('src'))
+            if r.status_code == 200:
+                refs.append(requests.get(srcs[i].get('src')))
+            # if the url is invalid, move on
         except:
             pass
 
