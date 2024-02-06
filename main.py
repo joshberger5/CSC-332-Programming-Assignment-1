@@ -9,7 +9,7 @@ import requests
 from bs4 import BeautifulSoup
 
 def question2(site):
-    """ Function to answer Question 2 """
+    """ Answer Question 2 """
     # get the response and BeautifulSoup
     rs = getResponseAndSoup(site)
 
@@ -52,13 +52,18 @@ def getReferencesResponses(soup: BeautifulSoup):
     # create a response for them and add them to a list
     refs = []
     for i in range(0, len(srcs)):
-        refs.append(requests.get(srcs[i].get('src')))
+        try:
+            refs.append(requests.get(srcs[i].get('src')))
+        except:
+            pass
 
     # return the list
     return refs
 
 def main():
     question2('https://www.youtube.com')
+    # question2('https://beautiful-soup-4.readthedocs.io/en/latest/')
+    # question2('https://requests.readthedocs.io/en/latest/')
     
 if __name__ == '__main__':
     main()
