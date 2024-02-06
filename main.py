@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 import time
 
 def question2(site):
-    """ Answer Question 2 """
+    """ Prints the answers to Question 2 """
     # print the sitename
     print('Site:\n' + site)
 
@@ -48,10 +48,13 @@ def question2(site):
         print('Percentage of objects on the page that are hosted on a different domain than the base HTML page:')
         print(differentDomainPercentage(site, rs[1]))
 
-        
-        
+        # calculate the time to load everything on the site
+        print('The time, in seconds, that it takes to load the base HTML page and all its embedded objects sequentially:')
+        print(pageLoadTime(site, rs[1]))
 
-def getResponseAndSoup(site):
+        print('\n')
+
+def getResponseAndSoup(site)->list:
     """ Gets a request and (maybe) a BeautifulSoup for a given website """
     # make a list to be returned
     lst = []
@@ -70,7 +73,7 @@ def getResponseAndSoup(site):
     return lst
 
 
-def getReferencesResponses(soup: BeautifulSoup):
+def getReferencesResponses(soup: BeautifulSoup)->list:
     """ Gets an array of all embedded references for a BeautifulSoup as responses """
     # get all the src tags from the website
     urls = getSourcesURLs(soup)
@@ -88,7 +91,7 @@ def getReferencesResponses(soup: BeautifulSoup):
     # return the list
     return refs
 
-def getSourcesURLs(soup: BeautifulSoup):
+def getSourcesURLs(soup: BeautifulSoup)->list:
     """ Returns all the embedded references on a BeautifulSoup """
     srcs = srcs = soup.find_all(attrs={'src':True}) # get all the URLs from the src objects
     urls = []
@@ -97,7 +100,7 @@ def getSourcesURLs(soup: BeautifulSoup):
     return urls
 
 
-def differentDomainPercentage(site: str, soup: BeautifulSoup):
+def differentDomainPercentage(site: str, soup: BeautifulSoup)->float:
     """ Gets the percentage of objects on the page that are hosted on a different domain than the base HTML page """
     urls = getSourcesURLs(soup)          # get the URL for the site's references
     baseDomain = getDomainFromURL(site)  # get the domain for the site
@@ -120,12 +123,29 @@ def getDomainFromURL(url: str)->str:
     thirdSlash = url.find('/', secondSlash+1)
     if thirdSlash == -1: thirdSlash = len(url)          
     return url[secondSlash+1:thirdSlash]
+
+def pageLoadTime(site: str, soup: BeautifulSoup)->float:
+    """ Calculate the time to load the base HTML page and all of its references """
+    urls = getSourcesURLs(soup) # collect all the URLs
+    start = time.time()         # find the time before requests
+
+    requests.get(site)
+    for url in urls:
+        try:
+            requests.get(url)   # request all the pages
+        except: pass 
+
+    end = time.time()           # find the time after responses
+    
+    return end - start          # return the difference
+    
+
     
 
 def main():
     question2('https://www.youtube.com')
-    # question2('https://beautiful-soup-4.readthedocs.io/en/latest/')
-    # question2('https://requests.readthedocs.io/en/latest/')
+    question2('https://beautiful-soup-4.readthedocs.io/en/latest/')
+    question2('https://requests.readthedocs.io/en/latest/')
     
 if __name__ == '__main__':
     main()
