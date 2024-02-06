@@ -23,7 +23,7 @@ they are not embedded in the page.)
 2. For at least three distinct pages on three distinct domains, calculate the following values:
 - The total size, in bytes, of the base HTML page and all its embedded objects
 - The percentage of objects on the page that fall into each Content-Type category
--  The percentage of objects on the page that are hosted on a different domain than 
+- The percentage of objects on the page that are hosted on a different domain than 
 the base HTML page. (You may consider objects hosted on subdomains, for 
 example, static.stereogum.com, to be hosted on the same domain.)
 - The time, in seconds, that it takes to load the base HTML page and all its 
