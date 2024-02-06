@@ -9,7 +9,7 @@ import requests
 from bs4 import BeautifulSoup
 
 def placeholder(site):
-    """ Method to answer question 2 """
+    """ Function to answer question 2 """
     soup = getSoup(site)
     refs = getReferences(soup)
     for ref in refs:
@@ -25,7 +25,7 @@ def getSoup(site):
         return soup
 
 def getReferences(soup: BeautifulSoup):
-    """ Get an array of referenced URLs for a BeautifulSoup """
+    """ Gets an array of referenced URLs for a BeautifulSoup """
     srcs = soup.find_all(attrs={'src':True})
     refs = list()
     for i in range(0, len(srcs)):
