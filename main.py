@@ -98,19 +98,19 @@ def getSourcesURLs(soup: BeautifulSoup)->list:
         urls.append(srcs[i].get('src'))
     return urls
 
-
 def differentDomainPercentage(site: str, soup: BeautifulSoup)->float:
     """ Gets the percentage of objects on the page that are hosted on a different domain than the base HTML page """
-    urls = getSourcesURLs(soup)          # get the URL for the site's references
-    baseDomain = getDomainFromURL(site)  # get the domain for the site
-    count = 0                            # number of references whose domain does not match the base domain
+    urls = getSourcesURLs(soup)                 # get the URL for the site's references
+    baseDomain = getDomainFromURL(site)         # get the domain for the site
+    count = 0                                   # number of references whose domain does not match the base domain
 
-    for url in urls:                     # check the domain for each reference against the base domain
-        domain = getDomainFromURL(url)   # extract the domain from the refernce URL
+    for url in urls:                            # check the domain for each reference against the base domain
+        domain = getDomainFromURL(url)          # extract the domain from the refernce URL
+        if domain == 'base': domain = baseDomain  # if the URL leaves out the base domain but starts with a /, set the domain to the base domain
         if domain != baseDomain:              
-            count += 1                   # if the URL's domain is different than the base domain, increase the count
+            count += 1                          # if the URL's domain is different than the base domain, increase the count
 
-    return count / len(urls) * 100       # return the percentage
+    return count / len(urls) * 100              # return the percentage
 
 def getDomainFromURL(url: str)->str:
     """ 
@@ -119,6 +119,7 @@ def getDomainFromURL(url: str)->str:
     """
     firstSlash = url.find('/')                  # the domain should be in between the first and third slashes in the URL
     secondSlash = url.find('/', firstSlash+1)
+    if firstSlash == 0 and secondSlash != 1: return "base"           # if the URL starts with one slash, it is on the base domain
     thirdSlash = url.find('/', secondSlash+1)
     if thirdSlash == -1: thirdSlash = len(url)          
     return url[secondSlash+1:thirdSlash]
